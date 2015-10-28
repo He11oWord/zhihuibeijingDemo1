@@ -3,6 +3,7 @@ package com.gxut.zhihuibeijingDemo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Window;
 
 import com.gxut.zhihuibeijingDemo.fragment.ActivityFragment;
 import com.gxut.zhihuibeijingDemo.fragment.LeftMenuFragment;
@@ -11,9 +12,12 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class HomeActivity extends SlidingFragmentActivity {
 	
+	private SlidingMenu slidingMenu;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_home);
 		setSliding();
 		
@@ -22,7 +26,7 @@ public class HomeActivity extends SlidingFragmentActivity {
 
 	private void setSliding() {
 		setBehindContentView(R.layout.sliding_menu);// 设置侧边栏布局
-		SlidingMenu slidingMenu = getSlidingMenu();// 获取侧边栏对象
+		slidingMenu = getSlidingMenu();
 		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);// 设置全屏触摸
 		//slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);// 设置展现模式
 		slidingMenu.setBehindOffset(200);// 设置预留屏幕的宽度		
