@@ -97,7 +97,7 @@ public class SplashActivity extends Activity {
 	private void nextActivity() {
 
 		if (PrefUtils.getBoolean(getApplicationContext(), "is_showed_guide", false)) {
-			Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+			Intent intent = new Intent(SplashActivity.this, MainActivity.class);
 			startActivity(intent);
 		}else{
 			Intent intent = new Intent(SplashActivity.this, GuideActivity.class);

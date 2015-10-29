@@ -3,6 +3,7 @@ package com.gxut.zhihuibeijingDemo.base.child;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.gxut.zhihuibeijingDemo.base.BasePager;
@@ -22,7 +23,8 @@ public class HomePager extends BasePager {
 	@Override
 	public void initData() {
 		tv_title.setText("ÖÇ»Û±±¾©");
-		setSlidingMenu(true);
+		setSlidingMenu(false);
+		ib_menu.setVisibility(View.INVISIBLE);
 		TextView text = new TextView(mActivity);
 		text.setText("Ê×Ò³");
 		text.setTextColor(Color.RED);

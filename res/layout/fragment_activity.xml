@@ -15,8 +15,8 @@
         android:id="@+id/fra_act_rg"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/news_item_bg"
         android:orientation="horizontal"
+        android:src="@drawable/news_item_bg"
         android:weightSum="4" >
 
         <RadioButton

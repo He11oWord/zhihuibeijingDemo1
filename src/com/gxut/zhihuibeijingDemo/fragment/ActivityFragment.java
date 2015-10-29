@@ -6,6 +6,7 @@ import java.util.List;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -67,53 +68,52 @@ public class ActivityFragment extends BaseFragment {
 		bpList.add(new NewsPager(mActivity));
 		bpList.add(new ServicePager(mActivity));
 		bpList.add(new PesonPager(mActivity));
-		
-		//预设置第一个页面的侧边栏可以使用
+
+		// 预设置第一个页面的侧边栏可以使用
 		bpList.get(0).initData();
 		fra_act_vp.setAdapter(new MyGuidePagerAdapter());
 
-		//设置底top的点击事件
+		// 设置底top的点击事件
 		fra_act_rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				switch(checkedId){
-				case R.id.fra_act_btn_home://主页面
+				switch (checkedId) {
+				case R.id.fra_act_btn_home:// 主页面
 					fra_act_vp.setCurrentItem(0);
 					break;
-				case R.id.fra_act_btn_news://新闻
+				case R.id.fra_act_btn_news:// 新闻
 					fra_act_vp.setCurrentItem(1);
 					break;
-				case R.id.fra_act_btn_fuwu://服务
+				case R.id.fra_act_btn_fuwu:// 服务
 					fra_act_vp.setCurrentItem(2);
 					break;
-				case R.id.fra_act_btn_geren://个人
+				case R.id.fra_act_btn_geren:// 个人
 					fra_act_vp.setCurrentItem(3);
 					break;
 				}
-				
-			}	
+
+			}
 		});
 		/**
 		 * 控制侧边栏的出现
 		 */
 		fra_act_vp.setOnPageChangeListener(new OnPageChangeListener() {
-			
+
 			@Override
 			public void onPageSelected(int arg0) {
 				bpList.get(arg0).initData();
 			}
-			
+
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
 			}
-			
+
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
 			}
 		});
-		
-		
+
 	}
 
 	/**
@@ -152,5 +152,14 @@ public class ActivityFragment extends BaseFragment {
 			container.removeView((View) object);
 
 		}
+	}
+
+	/**
+	 * 获得NewsPager
+	 * 
+	 * @return
+	 */
+	public NewsPager getNewsPager() {
+		return (NewsPager) bpList.get(1);
 	}
 }

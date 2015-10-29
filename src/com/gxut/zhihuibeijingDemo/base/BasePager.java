@@ -1,6 +1,6 @@
 package com.gxut.zhihuibeijingDemo.base;
 
-import com.gxut.zhihuibeijingDemo.HomeActivity;
+import com.gxut.zhihuibeijingDemo.MainActivity;
 import com.gxut.zhihuibeijingDemo.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -47,13 +47,13 @@ public class BasePager {
 	 * @param isOpen 是否打开
 	 */
 	public void setSlidingMenu(Boolean isOpen) {
-		HomeActivity ha = (HomeActivity) mActivity;
+		MainActivity ha = (MainActivity) mActivity;
 		SlidingMenu slidingMenu = ha.getSlidingMenu();
 		// slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);//
 		// 设置全屏触摸
 
 		if (isOpen) {
-			slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+			slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 		} else {
 			slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 		}

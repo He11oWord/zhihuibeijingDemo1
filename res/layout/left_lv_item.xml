@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lv_left_menu_tv_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="15dip"
+    android:paddingTop="15dip" 
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dip"
+        android:src="@drawable/icon_geo" />
+
+    <TextView
+        android:textColor="@drawable/selector_left_list_item"
+        android:id="@+id/lv_left_menu_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dip"
+        android:text="新闻"
+    
+        android:textSize="22dip" 
+        android:enabled="true"/>
+
+</LinearLayout>

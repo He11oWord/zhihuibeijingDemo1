@@ -18,9 +18,18 @@ public class NoScViewPager extends ViewPager {
 		super(context, attrs);
 	}
 
+	/**
+	 * 设置不能滚动
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent arg0) {
 		return false;
 	}
-	
+	/**
+	 * 不要阻止其他控件滚动
+	 */
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent arg0) {
+		return false;
+	}
 }

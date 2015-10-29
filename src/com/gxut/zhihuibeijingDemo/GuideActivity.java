@@ -212,7 +212,7 @@ public class GuideActivity extends Activity {
 	 */
 	private void enterHome() {
 		PrefUtils.setBoolean(getApplicationContext(), "is_showed_guide", true);
-		Intent intent = new Intent(GuideActivity.this,HomeActivity.class);
+		Intent intent = new Intent(GuideActivity.this,MainActivity.class);
 		startActivity(intent);
 		finish();
 	}

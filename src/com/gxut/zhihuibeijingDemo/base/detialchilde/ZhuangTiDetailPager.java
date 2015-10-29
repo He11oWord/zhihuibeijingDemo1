@@ -1,4 +1,4 @@
-package com.gxut.zhihuibeijingDemo.base.child;
+package com.gxut.zhihuibeijingDemo.base.detialchilde;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -6,32 +6,28 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gxut.zhihuibeijingDemo.base.BaseDetailPager;
 import com.gxut.zhihuibeijingDemo.base.BasePager;
 
 /**
- * 个人页面的布局，可动态设置
+ * 新闻-专题的内容，可动态设置
  * @Description TODO
  * @author lizhao
- * @date 2015-10-27 下午9:58:56
+ * @date 2015-10-27 下午9:58:26
  */
-public class PesonPager extends BasePager {
+public class ZhuangTiDetailPager extends BaseDetailPager {
 
-	public PesonPager(Activity activity) {
+	public ZhuangTiDetailPager(Activity activity) {
 		super(activity);
 	}
 
-	@Override
-	public void initData() {
-		tv_title.setText("个人");
-		ib_menu.setVisibility(View.GONE);
-		setSlidingMenu(false);
+	public View initView() {
 		TextView text = new TextView(mActivity);
-		text.setText("个人");
+		text.setText("新闻--专题");
 		text.setTextColor(Color.RED);
 		text.setTextSize(25);
 		text.setGravity(Gravity.CENTER);
-		fl.addView(text);
-		
+		return text;
 	}
 
 }
