@@ -3,16 +3,20 @@ package com.gxut.zhihuibeijingDemo.base.detialchilde;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -23,6 +27,8 @@ import com.gxut.zhihuibeijingDemo.domin.NewsDetailData;
 import com.gxut.zhihuibeijingDemo.domin.NewsDetailData.NewsDetailChilrenNewsData;
 import com.gxut.zhihuibeijingDemo.global.GlobalUrl;
 import com.gxut.zhihuibeijingDemo.ui.RefreshListView;
+import com.gxut.zhihuibeijingDemo.ui.RefreshListView.onRefreshListener;
+import com.gxut.zhihuibeijingDemo.utils.PrefUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -43,6 +49,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 	private RefreshListView top_list;
 	private MyTopListAdapter myTopListAdapter;
 	private List<NewsDetailChilrenNewsData> newsList;
+	private String mLoadMoreUrl;
 
 	public XinwenChilderDetailPager(Activity activity, NewsTabData newsTabData1) {
 		super(activity);
@@ -50,6 +57,9 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 		newsTabData = newsTabData1;
 	}
 
+	/**
+	 * 初始化布局
+	 */
 	@Override
 	public View initView() {
 		// text = new TextView(mActivity);
@@ -61,9 +71,48 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 		View headView = View.inflate(mActivity, R.layout.top_headview, null);
 		detailVp = (ViewPager) headView.findViewById(R.id.news_detail_vp);
 		tv_title = (TextView) headView.findViewById(R.id.tv_title);
-		mIndicator = (CirclePageIndicator) headView.findViewById(R.id.indicator);
+		mIndicator = (CirclePageIndicator) headView
+				.findViewById(R.id.indicator);
 		top_list = (RefreshListView) view.findViewById(R.id.news_detail_lv);
 		top_list.addHeaderView(headView);
+
+		//实现刷新的接口
+		top_list.setOnRefreshListener(new onRefreshListener() {
+
+			@Override
+			public void onrefresh() {
+				getDataFromServer();
+
+			}
+
+			@Override
+			public void onLoadMore() {
+				if (TextUtils.isEmpty(mLoadMoreUrl)) {
+					Toast.makeText(mActivity, "到底了", 0).show();
+					top_list.onRefreshComplete(false);
+				} else {
+					System.out.println("正在加载更多");
+					getMoreDataFromServer();
+					
+				}
+			}
+		});
+		//实现单条点击事件,已封装的接口
+		top_list.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				String id = detailChilrenData.data.news.get(arg2).id;
+				String ids = PrefUtils.getString(mActivity,"ids", "");
+				if(ids.contains(id)){
+				}else{
+					ids =ids + id +",";
+					PrefUtils.setString(mActivity, "ids", ids);
+				}
+				myTopListAdapter.notifyDataSetChanged();
+			}
+		});
 		return view;
 	}
 
@@ -89,14 +138,44 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {
 				String result = responseInfo.result;
-				parseData(result);
+				parseData(result, true);
+
+				top_list.onRefreshComplete(true);
 			}
 
 			// 访问失败
 			@Override
 			public void onFailure(HttpException error, String msg) {
 				Log.d("NewsPager", "失败" + msg);
+				Toast.makeText(mActivity, "联网失败", 0).show();
+				top_list.onRefreshComplete(false);
+			}
+		});
+	}
 
+	/**
+	 * 加载更多的数据
+	 */
+	private void getMoreDataFromServer() {
+		HttpUtils utils = new HttpUtils();
+
+		utils.send(HttpMethod.GET, mLoadMoreUrl, new RequestCallBack<String>() {
+
+			// 访问成功
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				String result = responseInfo.result;
+				parseData(result, false);
+
+				top_list.onRefreshComplete(true);
+			}
+
+			// 访问失败
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				Log.d("NewsPager", "失败" + msg);
+				Toast.makeText(mActivity, "联网失败", 0).show();
+				top_list.onRefreshComplete(false);
 			}
 		});
 	}
@@ -106,26 +185,38 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 	 * 
 	 * @param result
 	 */
-	protected void parseData(String result) {
+	protected void parseData(String result, boolean isMore) {
 		Gson gson = new Gson();
 		NewsDetailData fromJson = gson.fromJson(result, NewsDetailData.class);
 		detailChilrenData = fromJson;
-		System.out.println("解析结果" + detailChilrenData);
-
-		if (detailChilrenData.data.topnews != null) {
-			detailVp.setAdapter(new MyChildPagerAdapter());
-			mIndicator.setViewPager(detailVp);
-			mIndicator.setSnap(true);// 快照显示
-			mIndicator.setOnPageChangeListener(this);
-			mIndicator.onPageSelected(0);
-			tv_title.setText(detailChilrenData.data.topnews.get(0).title);
+		if (TextUtils.isEmpty(fromJson.data.more)) {
+			mLoadMoreUrl = null;
+		} else {
+			mLoadMoreUrl = GlobalUrl.SERVER_URL + fromJson.data.more;
+			System.out.println(mLoadMoreUrl);
 		}
 
-		newsList = detailChilrenData.data.news;
+		if (isMore) {
+			if (detailChilrenData.data.topnews != null) {
+				detailVp.setAdapter(new MyChildPagerAdapter());
+				mIndicator.setViewPager(detailVp);
+				mIndicator.setSnap(true);// 快照显示
+				mIndicator.setOnPageChangeListener(this);
+				mIndicator.onPageSelected(0);
+				tv_title.setText(detailChilrenData.data.topnews.get(0).title);
+			}
 
-		if (newsList != null) {
-			myTopListAdapter = new MyTopListAdapter();
-			top_list.setAdapter(myTopListAdapter);
+			newsList = detailChilrenData.data.news;
+
+			if (newsList != null) {
+				myTopListAdapter = new MyTopListAdapter();
+				top_list.setAdapter(myTopListAdapter);
+			}
+		} else {
+			List<NewsDetailChilrenNewsData> moreNewsList = detailChilrenData.data.news;
+			newsList.addAll(moreNewsList);
+			myTopListAdapter.notifyDataSetChanged();
+
 		}
 
 	}
@@ -140,7 +231,8 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 
 		public MyChildPagerAdapter() {
 			bitmapUtils = new BitmapUtils(mActivity);
-			bitmapUtils.configDefaultLoadingImage(R.drawable.home_scroll_default);
+			bitmapUtils
+					.configDefaultLoadingImage(R.drawable.home_scroll_default);
 
 		}
 
@@ -180,7 +272,8 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 
 		public MyTopListAdapter() {
 			listBitmapUtils = new BitmapUtils(mActivity);
-			listBitmapUtils.configDefaultLoadingImage(R.drawable.home_scroll_default);
+			listBitmapUtils
+					.configDefaultLoadingImage(R.drawable.home_scroll_default);
 		}
 
 		@Override
@@ -218,7 +311,16 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 			holder.tv2.setText(newsDetailChilrenNewsData.pubdate);
 			listBitmapUtils.display(holder.iv,
 					newsDetailChilrenNewsData.listimage);
-
+		
+			
+			String id = getItem(position).;
+			String ids = PrefUtils.getString(mActivity,"ids", "");
+			if(ids.contains(id)){
+				holder.tv1.setTextColor(Color.GRAY);
+			}else{
+				holder.tv1.setTextColor(Color.BLACK);
+			}
+			
 			return convertView;
 		}
 
