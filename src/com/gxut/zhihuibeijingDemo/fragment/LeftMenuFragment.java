@@ -99,8 +99,6 @@ public class LeftMenuFragment extends BaseFragment {
 	 * @param fromJson
 	 */
 	public void setNewsData(NewsData fromJson) {
-		System.out.println("侧边栏拿到数据了" + fromJson);
-
 		menuList = fromJson.data;
 		myListAdapter = new MyListAdapter();
 		lv_left.setAdapter(myListAdapter);

@@ -3,6 +3,7 @@ package com.gxut.zhihuibeijingDemo.base.detialchilde;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,6 +21,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.gxut.zhihuibeijingDemo.NewsDetailActivity;
 import com.gxut.zhihuibeijingDemo.R;
 import com.gxut.zhihuibeijingDemo.base.BaseDetailPager;
 import com.gxut.zhihuibeijingDemo.domin.NewsData.NewsTabData;
@@ -28,6 +30,7 @@ import com.gxut.zhihuibeijingDemo.domin.NewsDetailData.NewsDetailChilrenNewsData
 import com.gxut.zhihuibeijingDemo.global.GlobalUrl;
 import com.gxut.zhihuibeijingDemo.ui.RefreshListView;
 import com.gxut.zhihuibeijingDemo.ui.RefreshListView.onRefreshListener;
+import com.gxut.zhihuibeijingDemo.utils.CacheUtil;
 import com.gxut.zhihuibeijingDemo.utils.PrefUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
@@ -46,10 +49,11 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 	private ViewPager detailVp;// 设置头条新闻所有图片
 	private BitmapUtils bitmapUtils;// 设置头条新闻的图片
 	private CirclePageIndicator mIndicator;// 设置头条新闻的小圆点
-	private RefreshListView top_list;
-	private MyTopListAdapter myTopListAdapter;
+	private RefreshListView top_list;//新闻列表
+	private MyTopListAdapter myTopListAdapter;//新闻列表的适配器
 	private List<NewsDetailChilrenNewsData> newsList;
-	private String mLoadMoreUrl;
+	private String mLoadMoreUrl;//more的地址
+	private String mUrl;
 
 	public XinwenChilderDetailPager(Activity activity, NewsTabData newsTabData1) {
 		super(activity);
@@ -62,11 +66,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 	 */
 	@Override
 	public View initView() {
-		// text = new TextView(mActivity);
-		// text.setText("哈哈哈哈哈");
-		// text.setTextColor(Color.RED);
-		// text.setTextSize(25);
-		// text.setGravity(Gravity.CENTER);
+		
 		View view = View.inflate(mActivity, R.layout.news_detail, null);
 		View headView = View.inflate(mActivity, R.layout.top_headview, null);
 		detailVp = (ViewPager) headView.findViewById(R.id.news_detail_vp);
@@ -103,22 +103,40 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				String id = detailChilrenData.data.news.get(arg2).id;
+				String id = newsList.get(arg2).id;
 				String ids = PrefUtils.getString(mActivity,"ids", "");
 				if(ids.contains(id)){
 				}else{
 					ids =ids + id +",";
 					PrefUtils.setString(mActivity, "ids", ids);
 				}
-				myTopListAdapter.notifyDataSetChanged();
+				//myTopListAdapter.notifyDataSetChanged();这个方法整个屏幕都被刷了。
+				changeTextColor(arg1);
+				
+				Intent intent = new Intent(mActivity,NewsDetailActivity.class);
+				intent.putExtra("url", newsList.get(arg2).url);
+				mActivity.startActivity(intent);
 			}
 		});
 		return view;
 	}
 
+	public void changeTextColor(View view){
+		TextView tv_color = (TextView) view.findViewById(R.id.tv_title);
+		tv_color.setTextColor(Color.GRAY);
+	
+	}
+	
 	@Override
 	public void initData() {
-
+		String cache = CacheUtil.getCache(mActivity, GlobalUrl.SERVER_URL + newsTabData.url);
+		
+		if(!TextUtils.isEmpty(cache)){//如果不为空，先解析缓存
+			parseData(cache,true);
+			System.out.println("获得缓存成功");
+			Toast.makeText(mActivity, "获得缓存成功", 0).show();
+		}
+		
 		// 从服务器获得数据
 		getDataFromServer();
 
@@ -131,7 +149,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 		HttpUtils utils = new HttpUtils();
 		System.out.println(GlobalUrl.CATEGORIES_URL + newsTabData.url);
 
-		String mUrl = GlobalUrl.SERVER_URL + newsTabData.url;
+		mUrl = GlobalUrl.SERVER_URL + newsTabData.url;
 		utils.send(HttpMethod.GET, mUrl, new RequestCallBack<String>() {
 
 			// 访问成功
@@ -139,7 +157,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 			public void onSuccess(ResponseInfo<String> responseInfo) {
 				String result = responseInfo.result;
 				parseData(result, true);
-
+				CacheUtil.setCache(mActivity, mUrl, result);
 				top_list.onRefreshComplete(true);
 			}
 
@@ -193,7 +211,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 			mLoadMoreUrl = null;
 		} else {
 			mLoadMoreUrl = GlobalUrl.SERVER_URL + fromJson.data.more;
-			System.out.println(mLoadMoreUrl);
+			
 		}
 
 		if (isMore) {
@@ -282,8 +300,8 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 		}
 
 		@Override
-		public Object getItem(int position) {
-			return null;
+		public NewsDetailChilrenNewsData getItem(int position) {
+			return newsList.get(position);
 		}
 
 		@Override
@@ -313,9 +331,9 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 					newsDetailChilrenNewsData.listimage);
 		
 			
-			String id = getItem(position).;
+			getItem(position);
 			String ids = PrefUtils.getString(mActivity,"ids", "");
-			if(ids.contains(id)){
+			if(ids.contains(getItem(position).id)){
 				holder.tv1.setTextColor(Color.GRAY);
 			}else{
 				holder.tv1.setTextColor(Color.BLACK);
@@ -326,6 +344,9 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 
 	}
 
+	/**
+	 * view管理类
+	 */
 	class ViewHolder {
 		public TextView tv1;
 		public TextView tv2;

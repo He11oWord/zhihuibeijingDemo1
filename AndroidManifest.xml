@@ -30,6 +30,9 @@
         <activity
             android:name="com.gxut.zhihuibeijingDemo.MainActivity"
             android:theme="@style/Theme.PageIndicatorDefaults" />
+        
+        <activity android:name="com.gxut.zhihuibeijingDemo.NewsDetailActivity"/>
+        
     </application>
 
 </manifest>

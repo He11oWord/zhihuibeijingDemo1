@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/base_pager_rl"
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:background="@drawable/biaoti" >
+
+        <ImageButton
+            android:id="@+id/acti_news_detail_ib1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@null"
+            android:padding="5dip"
+            android:src="@drawable/back" />
+
+        <ImageButton
+            android:id="@+id/acti_news_detail_ib2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dip"
+            android:background="@null"
+            android:src="@drawable/icon_textsize" />
+
+        <ImageButton
+            android:id="@+id/acti_news_detail_ib3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dip"
+            android:background="@null"
+            android:src="@drawable/icon_share" />
+    </RelativeLayout>
+
+    <WebView
+        android:layout_weight="1"
+        android:id="@+id/acti_news_detail_wv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

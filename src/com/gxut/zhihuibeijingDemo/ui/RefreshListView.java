@@ -268,7 +268,7 @@ public class RefreshListView extends ListView implements OnScrollListener,androi
 				setSelection(getCount());// œ‘ æListviewµƒŒª÷√
 				isLoadingMore = true;
 				
-				if(isLoadingMore){
+				if(onListener!=null){
 					onListener.onLoadMore();
 				}
 			}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.gxut.zhihuibeijingDemo.base.detialchilde.ZutuDetailPager;
 import com.gxut.zhihuibeijingDemo.domin.NewsData;
 import com.gxut.zhihuibeijingDemo.domin.NewsData.NewsMenuData;
 import com.gxut.zhihuibeijingDemo.global.GlobalUrl;
+import com.gxut.zhihuibeijingDemo.utils.CacheUtil;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -47,8 +49,15 @@ public class NewsPager extends BasePager {
 	public void initData() {
 		tv_title.setText("新闻");
 		setSlidingMenu(true);
-		getDataFromServer();
+		String cache = CacheUtil.getCache(mActivity, GlobalUrl.CATEGORIES_URL);
+		if(!TextUtils.isEmpty(cache)){//如果不为空，先解析缓存
+			parseData(cache);
+		}
+		getDataFromServer();//不管有没有缓存，都获取最新数据
+		
 
+		
+		
 		// 点击上方的小横线，出现菜单
 		ib_menu.setOnClickListener(new OnClickListener() {
 
@@ -81,6 +90,8 @@ public class NewsPager extends BasePager {
 					@Override
 					public void onSuccess(ResponseInfo<String> responseInfo) {
 						String result = responseInfo.result;
+						CacheUtil.setCache(mActivity, GlobalUrl.CATEGORIES_URL, result);
+						
 						parseData(result);
 					}
 
@@ -89,6 +100,7 @@ public class NewsPager extends BasePager {
 					public void onFailure(HttpException error, String msg) {
 						Log.d("NewsPager", "失败" + msg);
 						tv_title.setText("新闻");
+						
 					}	
 				});
 	}
