@@ -118,7 +118,6 @@ public class ActivityFragment extends BaseFragment {
 
 	/**
 	 * viewPagerµÄÊÊÅäÆ÷
-	 * 
 	 * @Description TODO
 	 * @author lizhao
 	 * @date 2015-10-27 ÏÂÎç6:32:10

@@ -87,27 +87,27 @@ public class NewsDetailActivity extends Activity implements OnClickListener{
 				// return super.shouldOverrideUrlLoading(view, url);
 			}
 		});
-		//功能更强大的内置客户端
-		acti_news_detail_wv.setWebChromeClient(new WebChromeClient() {
-
-			/**
-			 * 进度发生变化
-			 */
-			@Override
-			public void onProgressChanged(WebView view, int newProgress) {
-				System.out.println("加载进度:" + newProgress);
-				super.onProgressChanged(view, newProgress);
-			}
-
-			/**
-			 * 获取网页标题
-			 */
-			@Override
-			public void onReceivedTitle(WebView view, String title) {
-				System.out.println("网页标题:" + title);
-				super.onReceivedTitle(view, title);
-			}
-		});
+//		//功能更强大的内置客户端
+//		acti_news_detail_wv.setWebChromeClient(new WebChromeClient() {
+//
+//			/**
+//			 * 进度发生变化
+//			 */
+//			@Override
+//			public void onProgressChanged(WebView view, int newProgress) {
+//				System.out.println("加载进度:" + newProgress);
+//				super.onProgressChanged(view, newProgress);
+//			}
+//
+//			/**
+//			 * 获取网页标题
+//			 */
+//			@Override
+//			public void onReceivedTitle(WebView view, String title) {
+//				System.out.println("网页标题:" + title);
+//				super.onReceivedTitle(view, title);
+//			}
+//		});
 
 		
 		// mWebView.goBack()

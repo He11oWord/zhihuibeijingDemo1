@@ -57,5 +57,8 @@ public class BasePager {
 		} else {
 			slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 		}
+		
+		
+		
 	}
 }

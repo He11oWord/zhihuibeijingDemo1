@@ -32,7 +32,7 @@
             android:theme="@style/Theme.PageIndicatorDefaults" />
         
         <activity android:name="com.gxut.zhihuibeijingDemo.NewsDetailActivity"/>
-        
+        <activity android:name="com.gxut.zhihuibeijingDemo.TodayHotActivity"/>
     </application>
 
 </manifest>

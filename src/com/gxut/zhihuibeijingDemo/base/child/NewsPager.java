@@ -107,7 +107,6 @@ public class NewsPager extends BasePager {
 
 	/**
 	 * 获取json数据
-	 * 
 	 * @param result
 	 */
 	protected void parseData(String result) {
@@ -122,11 +121,13 @@ public class NewsPager extends BasePager {
 		bdList = new ArrayList<BaseDetailPager>();
 		bdList.add(new XinwenDetailPager(mActivity,newsData.data.get(0).children));
 		bdList.add(new ZhuangTiDetailPager(mActivity));
-		bdList.add(new ZutuDetailPager(mActivity));
+		bdList.add(new ZutuDetailPager(mActivity,ib_serach));
 		bdList.add(new HudongDetailPager(mActivity));
 
 		// 预设值为首页
-		setDetailPager(0);
+	
+		
+		setDetailPager(mainUI.getFragmentLeftMenu().getMPostion());
 	}
 
 	/**
@@ -142,5 +143,11 @@ public class NewsPager extends BasePager {
 		NewsMenuData newsMenuData = newsData.data.get(position);
 		tv_title.setText(newsMenuData.title);
 		bdList.get(position).initData();
+		if (bdList.get(position) instanceof ZutuDetailPager) {
+			ib_serach.setVisibility(View.VISIBLE);
+		} else {
+			ib_serach.setVisibility(View.GONE);
+		}
+		
 	}
 }

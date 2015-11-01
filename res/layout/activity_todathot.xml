@@ -5,29 +5,29 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/base_pager_rl"
+        android:id="@+id/home_todayhot_rl"
         android:layout_width="match_parent"
         android:layout_height="60dip"
         android:background="@drawable/biaoti" >
 
         <ImageButton
-            android:id="@+id/base_pager_ib1"
+            android:id="@+id/home_todayhot_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dip"
-            android:padding="5dip"
             android:background="@null"
-            android:src="@drawable/img_menu" />
+            android:padding="5dip"
+            android:src="@drawable/arrow_black_leftward" />
 
         <TextView
-            android:textColor="#fff"
             android:id="@+id/base_pager_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="智慧北京"
+            android:text="今日热点"
+            android:textColor="#fff"
             android:textSize="24dip" />
 
         <ImageButton
@@ -38,15 +38,15 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="5dip"
             android:background="@null"
-            android:visibility="invisible"
-            android:src="@drawable/icon_pic_grid_type" />
+            android:src="@drawable/icon_pic_grid_type"
+            android:visibility="invisible" />
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/base_pager_fl"
+    <ListView
+        android:id="@+id/home_todayhot_lv"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:divider="@null" >
+    </ListView>
 
 </LinearLayout>

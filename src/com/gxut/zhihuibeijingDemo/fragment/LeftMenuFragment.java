@@ -23,7 +23,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
  * 侧边抽屉菜单的布局
- * 
  * @Description TODO
  * @author lizhao
  * @date 2015-10-27 上午12:26:56
@@ -41,7 +40,7 @@ public class LeftMenuFragment extends BaseFragment {
 	private MainActivity mainUI;
 
 	//被点击的条目
-	private int mPosition;
+	public int mPosition = 0;
 
 	private MyListAdapter myListAdapter;
 	
@@ -54,8 +53,9 @@ public class LeftMenuFragment extends BaseFragment {
 
 	@Override
 	public void initData() {
+	
 		lv_left.setOnItemClickListener(new OnItemClickListener() {
-
+		
 			
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
@@ -65,7 +65,6 @@ public class LeftMenuFragment extends BaseFragment {
 				setDetailPager(arg2);
 				//收回侧边栏
 				toggleSlidingMenu();
-				
 			}
 		});
 		
@@ -122,7 +121,8 @@ public class LeftMenuFragment extends BaseFragment {
 			TextView lv_left_menu_tv = (TextView) view
 					.findViewById(R.id.lv_left_menu_tv);
 			lv_left_menu_tv.setText(menuList.get(position).title);
-
+	
+			
 			if(mPosition == position){
 				lv_left_menu_tv.setEnabled(false);
 			}else{
@@ -144,5 +144,10 @@ public class LeftMenuFragment extends BaseFragment {
 		}
 
 	}
+	
+	public int getMPostion(){
+		return mPosition;
+	}
+	
 
 }

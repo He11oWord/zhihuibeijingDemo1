@@ -5,20 +5,24 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.gxut.zhihuibeijingDemo.NewsDetailActivity;
@@ -49,11 +53,12 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 	private ViewPager detailVp;// 设置头条新闻所有图片
 	private BitmapUtils bitmapUtils;// 设置头条新闻的图片
 	private CirclePageIndicator mIndicator;// 设置头条新闻的小圆点
-	private RefreshListView top_list;//新闻列表
-	private MyTopListAdapter myTopListAdapter;//新闻列表的适配器
+	private RefreshListView top_list;// 新闻列表
+	private MyTopListAdapter myTopListAdapter;// 新闻列表的适配器
 	private List<NewsDetailChilrenNewsData> newsList;
-	private String mLoadMoreUrl;//more的地址
+	private String mLoadMoreUrl;// more的地址
 	private String mUrl;
+	private Handler mHandler;
 
 	public XinwenChilderDetailPager(Activity activity, NewsTabData newsTabData1) {
 		super(activity);
@@ -66,7 +71,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 	 */
 	@Override
 	public View initView() {
-		
+
 		View view = View.inflate(mActivity, R.layout.news_detail, null);
 		View headView = View.inflate(mActivity, R.layout.top_headview, null);
 		detailVp = (ViewPager) headView.findViewById(R.id.news_detail_vp);
@@ -76,7 +81,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 		top_list = (RefreshListView) view.findViewById(R.id.news_detail_lv);
 		top_list.addHeaderView(headView);
 
-		//实现刷新的接口
+		// 实现刷新的接口
 		top_list.setOnRefreshListener(new onRefreshListener() {
 
 			@Override
@@ -93,50 +98,82 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 				} else {
 					System.out.println("正在加载更多");
 					getMoreDataFromServer();
-					
+
 				}
 			}
 		});
-		//实现单条点击事件,已封装的接口
+		// 实现单条点击事件,已封装的接口
 		top_list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				String id = newsList.get(arg2).id;
-				String ids = PrefUtils.getString(mActivity,"ids", "");
-				if(ids.contains(id)){
-				}else{
-					ids =ids + id +",";
+				String ids = PrefUtils.getString(mActivity, "ids", "");
+				if (ids.contains(id)) {
+				} else {
+					ids = ids + id + ",";
 					PrefUtils.setString(mActivity, "ids", ids);
 				}
-				//myTopListAdapter.notifyDataSetChanged();这个方法整个屏幕都被刷了。
+				// myTopListAdapter.notifyDataSetChanged();这个方法整个屏幕都被刷了。
 				changeTextColor(arg1);
-				
-				Intent intent = new Intent(mActivity,NewsDetailActivity.class);
+
+				Intent intent = new Intent(mActivity, NewsDetailActivity.class);
 				intent.putExtra("url", newsList.get(arg2).url);
 				mActivity.startActivity(intent);
 			}
 		});
+
+		detailVp.setOnTouchListener(new MyTouchListener());
 		return view;
 	}
 
-	public void changeTextColor(View view){
+	/**
+	 * ViewPager的触摸事件
+	 * @author lizhao
+	 */
+	class MyTouchListener implements OnTouchListener {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				mHandler.removeCallbacksAndMessages(null);//清除所有的消息事件
+				break;
+			case MotionEvent.ACTION_CANCEL:
+				mHandler.sendEmptyMessageDelayed(0, 3000);
+				break;
+			case MotionEvent.ACTION_UP:
+				mHandler.sendEmptyMessageDelayed(0, 3000);
+				break;
+			}
+
+			return false;
+		}
+
+	}
+
+	/**
+	 * 设置已经点击过条目的颜色
+	 * @param view
+	 */
+	public void changeTextColor(View view) {
 		TextView tv_color = (TextView) view.findViewById(R.id.tv_title);
 		tv_color.setTextColor(Color.GRAY);
-	
+
 	}
-	
+
 	@Override
 	public void initData() {
-		String cache = CacheUtil.getCache(mActivity, GlobalUrl.SERVER_URL + newsTabData.url);
-		
-		if(!TextUtils.isEmpty(cache)){//如果不为空，先解析缓存
-			parseData(cache,true);
+		String cache = CacheUtil.getCache(mActivity, GlobalUrl.SERVER_URL
+				+ newsTabData.url);
+
+		if (!TextUtils.isEmpty(cache)) {// 如果不为空，先解析缓存
+			parseData(cache, true);
 			System.out.println("获得缓存成功");
 			Toast.makeText(mActivity, "获得缓存成功", 0).show();
 		}
-		
+
 		// 从服务器获得数据
 		getDataFromServer();
 
@@ -211,7 +248,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 			mLoadMoreUrl = null;
 		} else {
 			mLoadMoreUrl = GlobalUrl.SERVER_URL + fromJson.data.more;
-			
+
 		}
 
 		if (isMore) {
@@ -230,7 +267,28 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 				myTopListAdapter = new MyTopListAdapter();
 				top_list.setAdapter(myTopListAdapter);
 			}
-		} else {
+
+			// 自动轮播显示
+			if (mHandler == null) {
+				mHandler = new Handler() {
+					public void handleMessage(android.os.Message msg) {
+
+						// 获得正在显示的条目
+						int currentItem = detailVp.getCurrentItem();
+
+						if (currentItem < 3) {
+							currentItem++;
+						} else {
+							currentItem = 0;
+						}
+						detailVp.setCurrentItem(currentItem);// 切换到下一个页面
+						mHandler.sendEmptyMessageDelayed(0, 2000);// 以后循环发送
+					};
+				};
+				mHandler.sendEmptyMessageDelayed(0, 2000);// 第一次2秒之后发信息出去
+			}
+
+		} else {// 如果是加载更多的话，就添加列表
 			List<NewsDetailChilrenNewsData> moreNewsList = detailChilrenData.data.news;
 			newsList.addAll(moreNewsList);
 			myTopListAdapter.notifyDataSetChanged();
@@ -241,9 +299,6 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 
 	/**
 	 * 头条viewPager适配器
-	 * 
-	 * @author lizhao
-	 * 
 	 */
 	class MyChildPagerAdapter extends PagerAdapter {
 
@@ -329,16 +384,15 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 			holder.tv2.setText(newsDetailChilrenNewsData.pubdate);
 			listBitmapUtils.display(holder.iv,
 					newsDetailChilrenNewsData.listimage);
-		
-			
+
 			getItem(position);
-			String ids = PrefUtils.getString(mActivity,"ids", "");
-			if(ids.contains(getItem(position).id)){
+			String ids = PrefUtils.getString(mActivity, "ids", "");
+			if (ids.contains(getItem(position).id)) {
 				holder.tv1.setTextColor(Color.GRAY);
-			}else{
+			} else {
 				holder.tv1.setTextColor(Color.BLACK);
 			}
-			
+
 			return convertView;
 		}
 
