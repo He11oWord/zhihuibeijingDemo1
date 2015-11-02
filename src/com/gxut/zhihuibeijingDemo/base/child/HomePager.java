@@ -22,12 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.gxut.zhihuibeijingDemo.MainActivity;
 import com.gxut.zhihuibeijingDemo.NewsDetailActivity;
 import com.gxut.zhihuibeijingDemo.R;
 import com.gxut.zhihuibeijingDemo.base.BasePager;
 import com.gxut.zhihuibeijingDemo.domin.HomeNewsData;
 import com.gxut.zhihuibeijingDemo.domin.HomeNewsData.HomeTopData;
+import com.gxut.zhihuibeijingDemo.fragment.ActivityFragment;
 import com.gxut.zhihuibeijingDemo.global.GlobalUrl;
+import com.gxut.zhihuibeijingDemo.settingactiivty.TodayHotActivity;
 import com.gxut.zhihuibeijingDemo.utils.CacheUtil;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
@@ -55,14 +58,16 @@ public class HomePager extends BasePager implements OnItemClickListener  {
 	private ArrayList<HomeTopData> topNewsList;
 	private Handler mHandler;
 	private MyListAdapter myGridAdapter;
+	private ActivityFragment af;
 	private int[] ids = {
 		R.drawable.today_hot,R.drawable.fm_shouye,R.drawable.fm_shouye,
 		R.drawable.tubiao_pindao,R.drawable.index_chuxing,R.drawable.index_itlx,
 		R.drawable.zhuanti_top,R.drawable.jiaoyu,R.drawable.yiliao
 	};
 	
-	public HomePager(Activity activity) {
+	public HomePager(Activity activity,ActivityFragment af) {
 		super(activity);
+		this.af =af;
 		initData();
 	}
 
@@ -267,14 +272,24 @@ public class HomePager extends BasePager implements OnItemClickListener  {
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 		Intent intent;
 		switch(position){
-		case 1:
+		case 0:
+			intent = new Intent(mActivity,TodayHotActivity.class);
+			mActivity.startActivity(intent);
+			break;
+		case 3:
+//			MainActivity mainUI = (MainActivity) mActivity;//获得MainActivity
+//			ActivityFragment activityFragment = mainUI.getActivityFragment();//获得ActivityF
+			NewsPager newsPager = af.getNewsPager();//获得NewsPager
+			af.fra_act_rg.check(1);
+			af.fra_act_vp.setCurrentItem(1);
+			newsPager.setDetailPager(2);//调用NewsPager的设置页面方法
+			newsPager.setDetailPager(2);//调用NewsPager的设置页面方法
 			break;
 		case 7:
 			System.out.println("求职招聘被点击了");
 			intent = new Intent(mActivity,NewsDetailActivity.class);
-			intent.putExtra("url", "http://www.baidu.com");
+			intent.putExtra("url", "http://www.51job.com");
 			mActivity.startActivity(intent);
-			
 			break;
 		
 		default:

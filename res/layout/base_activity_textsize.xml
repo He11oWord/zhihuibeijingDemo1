@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:text="正文字号设置"
+        android:textSize="20dip" />
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:src="@drawable/news_item_bg"
+        android:weightSum="4" >
+
+        <RadioButton
+            android:id="@+id/fra_act_btn_home"
+            style="@style/BottomTab"
+            android:drawableEnd="@drawable/checkbox"
+            android:gravity="left"
+            android:text="特大" />
+
+        <RadioButton
+            android:id="@+id/fra_act_btn_news"
+            style="@style/BottomTab"
+            android:drawableEnd="@drawable/checkbox"
+            android:text="大    " />
+
+        <RadioButton
+            android:id="@+id/fra_act_btn_fuwu"
+            style="@style/BottomTab"
+            android:drawableEnd="@drawable/checkbox"
+            android:text="正常" />
+
+        <RadioButton
+            android:id="@+id/fra_act_btn_geren"
+            style="@style/BottomTab"
+            android:drawableEnd="@drawable/checkbox"
+            android:text="小    " />
+        
+        <RadioButton
+            android:id="@+id/fra_act_btn_texiao"
+            style="@style/BottomTab"
+            android:drawableEnd="@drawable/checkbox"
+            android:text="特小" />
+    </RadioGroup>
+
+    <!-- <CheckBox -->
+    <!-- android:id="@+id/cb1" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:button="@drawable/checkbox" -->
+    <!-- android:gravity="right|center_vertical" -->
+    <!-- android:paddingBottom="10dip" -->
+    <!-- android:text="超大号字体" -->
+    <!-- android:textSize="22dip" /> -->
+
+
+    <!-- <CheckBox -->
+    <!-- android:id="@+id/cb2" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:button="@drawable/checkbox" -->
+    <!-- android:gravity="right|center_vertical" -->
+    <!-- android:paddingBottom="10dip" -->
+    <!-- android:text="大号字体" -->
+    <!-- android:textSize="22dip" /> -->
+
+
+    <!-- <CheckBox -->
+    <!-- android:id="@+id/cb3" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:button="@drawable/checkbox" -->
+    <!-- android:gravity="right|center_vertical" -->
+    <!-- android:paddingBottom="10dip" -->
+    <!-- android:text="正常字体" -->
+    <!-- android:textSize="22dip" /> -->
+
+
+    <!-- <CheckBox -->
+    <!-- android:id="@+id/cb4" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:button="@drawable/checkbox" -->
+    <!-- android:gravity="right|center_vertical" -->
+    <!-- android:paddingBottom="10dip" -->
+    <!-- android:text="小号字体" -->
+    <!-- android:textSize="22dip" /> -->
+
+
+    <!-- <CheckBox -->
+    <!-- android:id="@+id/cb5" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:button="@drawable/checkbox" -->
+    <!-- android:gravity="right|center_vertical" -->
+    <!-- android:paddingBottom="10dip" -->
+    <!-- android:text="超小号字体" -->
+    <!-- android:textSize="22dip" /> -->
+
+</LinearLayout>

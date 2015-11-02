@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/base_setting_todayhot_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
+
+    <TextView
+        android:text="hhahhahhah"
+        android:id="@+id/base_setting_todayhot_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </TextView>
+
+</LinearLayout>

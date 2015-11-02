@@ -16,7 +16,7 @@ import com.gxut.zhihuibeijingDemo.R;
 import com.gxut.zhihuibeijingDemo.base.BasePager;
 import com.gxut.zhihuibeijingDemo.base.child.HomePager;
 import com.gxut.zhihuibeijingDemo.base.child.NewsPager;
-import com.gxut.zhihuibeijingDemo.base.child.PesonPager;
+import com.gxut.zhihuibeijingDemo.base.child.PersonPager;
 import com.gxut.zhihuibeijingDemo.base.child.ServicePager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -31,10 +31,10 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class ActivityFragment extends BaseFragment {
 
 	@ViewInject(R.id.fra_act_rg)
-	private RadioGroup fra_act_rg;
+	public RadioGroup fra_act_rg;
 
 	@ViewInject(R.id.fra_act_vp)
-	private ViewPager fra_act_vp;
+	public ViewPager fra_act_vp;
 
 	// 适配器
 	private MyGuidePagerAdapter mpa;
@@ -64,10 +64,10 @@ public class ActivityFragment extends BaseFragment {
 	public void initData() {
 		fra_act_rg.check(R.id.fra_act_btn_home);
 		// 添加几个自定义的页面
-		bpList.add(new HomePager(mActivity));
+		bpList.add(new HomePager(mActivity,this));
 		bpList.add(new NewsPager(mActivity));
 		bpList.add(new ServicePager(mActivity));
-		bpList.add(new PesonPager(mActivity));
+		bpList.add(new PersonPager(mActivity));
 
 		// 预设置第一个页面的侧边栏可以使用
 		bpList.get(0).initData();
@@ -85,6 +85,9 @@ public class ActivityFragment extends BaseFragment {
 				case R.id.fra_act_btn_news:// 新闻
 					fra_act_vp.setCurrentItem(1);
 					break;
+//				case 1:// 新闻
+//					fra_act_vp.setCurrentItem(1);
+//					break;
 				case R.id.fra_act_btn_fuwu:// 服务
 					fra_act_vp.setCurrentItem(2);
 					break;
@@ -118,6 +121,7 @@ public class ActivityFragment extends BaseFragment {
 
 	/**
 	 * viewPager的适配器
+	 * 
 	 * @Description TODO
 	 * @author lizhao
 	 * @date 2015-10-27 下午6:32:10

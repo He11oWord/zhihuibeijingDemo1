@@ -30,9 +30,15 @@
         <activity
             android:name="com.gxut.zhihuibeijingDemo.MainActivity"
             android:theme="@style/Theme.PageIndicatorDefaults" />
-        
-        <activity android:name="com.gxut.zhihuibeijingDemo.NewsDetailActivity"/>
-        <activity android:name="com.gxut.zhihuibeijingDemo.TodayHotActivity"/>
+        <activity android:name="com.gxut.zhihuibeijingDemo.NewsDetailActivity" />
+        <activity android:name="com.gxut.zhihuibeijingDemo.settingactiivty.TodayHotActivity" />
+        <activity android:name="com.gxut.zhihuibeijingDemo.settingactiivty.TranslationActivity" />
+        <activity android:name="com.gxut.zhihuibeijingDemo.settingactiivty.LoginActivity" />
+        <activity android:name="com.gxut.zhihuibeijingDemo.settingactiivty.ZhuceActivity" />
+        <activity android:name="com.gxut.zhihuibeijingDemo.settingactiivty.OtherActivity" />
+        <activity android:name="com.gxut.zhihuibeijingDemo.settingactiivty.SuggestionActivity" />
+        <activity android:name="com.gxut.zhihuibeijingDemo.settingactiivty.TextSizeActivity" />
+        <activity android:name="com.gxut.zhihuibeijingDemo.settingactiivty.ReadModeActivity" />
     </application>
 
 </manifest>

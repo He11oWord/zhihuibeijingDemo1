@@ -61,7 +61,6 @@ public class MainActivity extends SlidingFragmentActivity {
 
 	/**
 	 * »ñµÃ²à±ßÀ¸
-	 * 
 	 * @return ²à±ßÀ¸
 	 */
 	public LeftMenuFragment getFragmentLeftMenu() {

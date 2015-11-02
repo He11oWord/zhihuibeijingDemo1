@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+         android:id="@+id/base_activity_ll" >
+
+    <RelativeLayout
+        android:id="@+id/base_activity_rl"
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:background="@drawable/biaoti" >
+
+        <ImageButton
+            android:id="@+id/base_activity_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dip"
+            android:background="@null"
+            android:padding="5dip"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/base_activity_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="今日热点"
+            android:textColor="#fff"
+            android:textSize="24dip" />
+
+        <ImageButton
+            android:id="@+id/base_activity_ib2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dip"
+            android:background="@null"
+            android:src="@drawable/icon_pic_grid_type"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+<!--     <ListView -->
+<!--         android:id="@+id/home_todayhot_lv" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="match_parent" -->
+<!--         android:divider="@null" > -->
+<!--     </ListView> -->
+
+</LinearLayout>

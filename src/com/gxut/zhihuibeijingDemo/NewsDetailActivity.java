@@ -15,14 +15,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 
+import com.gxut.zhihuibeijingDemo.utils.PrefUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
  * 新闻详情页面
+ * 
  * @author lizhao
  */
-public class NewsDetailActivity extends Activity implements OnClickListener{
-	
+public class NewsDetailActivity extends Activity implements OnClickListener {
+
 	@ViewInject(R.id.acti_news_detail_ib1)
 	private ImageButton acti_news_detail_ib1;
 	@ViewInject(R.id.acti_news_detail_ib2)
@@ -31,21 +33,21 @@ public class NewsDetailActivity extends Activity implements OnClickListener{
 	private ImageButton acti_news_detail_ib3;
 	@ViewInject(R.id.acti_news_detail_wv)
 	private WebView acti_news_detail_wv;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_news_detail);
-		
+
 		View view = View.inflate(this, R.layout.activity_news_detail, null);
-		//ViewUtils.inject(this, view);
+		// ViewUtils.inject(this, view);
 		acti_news_detail_ib1 = (ImageButton) findViewById(R.id.acti_news_detail_ib1);
-		acti_news_detail_ib2= (ImageButton) findViewById(R.id.acti_news_detail_ib2);
+		acti_news_detail_ib2 = (ImageButton) findViewById(R.id.acti_news_detail_ib2);
 		acti_news_detail_ib3 = (ImageButton) findViewById(R.id.acti_news_detail_ib3);
 		acti_news_detail_wv = (WebView) findViewById(R.id.acti_news_detail_wv);
 		String url = getIntent().getStringExtra("url");
-		
+
 		WebSettings settings = acti_news_detail_wv.getSettings();
 		settings.setJavaScriptEnabled(true);// 表示支持js
 		settings.setBuiltInZoomControls(true);// 显示放大缩小按钮
@@ -60,7 +62,7 @@ public class NewsDetailActivity extends Activity implements OnClickListener{
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 				System.out.println("网页开始加载");
-				//pbProgress.setVisibility(View.VISIBLE);
+				// pbProgress.setVisibility(View.VISIBLE);
 			}
 
 			/**
@@ -71,7 +73,7 @@ public class NewsDetailActivity extends Activity implements OnClickListener{
 				super.onPageFinished(view, url);
 				System.out.println("网页开始结束");
 
-				//pbProgress.setVisibility(View.GONE);
+				// pbProgress.setVisibility(View.GONE);
 			}
 
 			/**
@@ -87,42 +89,40 @@ public class NewsDetailActivity extends Activity implements OnClickListener{
 				// return super.shouldOverrideUrlLoading(view, url);
 			}
 		});
-//		//功能更强大的内置客户端
-//		acti_news_detail_wv.setWebChromeClient(new WebChromeClient() {
-//
-//			/**
-//			 * 进度发生变化
-//			 */
-//			@Override
-//			public void onProgressChanged(WebView view, int newProgress) {
-//				System.out.println("加载进度:" + newProgress);
-//				super.onProgressChanged(view, newProgress);
-//			}
-//
-//			/**
-//			 * 获取网页标题
-//			 */
-//			@Override
-//			public void onReceivedTitle(WebView view, String title) {
-//				System.out.println("网页标题:" + title);
-//				super.onReceivedTitle(view, title);
-//			}
-//		});
+		// //功能更强大的内置客户端
+		// acti_news_detail_wv.setWebChromeClient(new WebChromeClient() {
+		//
+		// /**
+		// * 进度发生变化
+		// */
+		// @Override
+		// public void onProgressChanged(WebView view, int newProgress) {
+		// System.out.println("加载进度:" + newProgress);
+		// super.onProgressChanged(view, newProgress);
+		// }
+		//
+		// /**
+		// * 获取网页标题
+		// */
+		// @Override
+		// public void onReceivedTitle(WebView view, String title) {
+		// System.out.println("网页标题:" + title);
+		// super.onReceivedTitle(view, title);
+		// }
+		// });
 
-		
 		// mWebView.goBack()
 		acti_news_detail_wv.loadUrl(url);
-		
+		mCurrentItem = PrefUtils.getInt(NewsDetailActivity.this,
+				"textsizecheck", 1);
+		sitTextSize(mCurrentItem);
 		acti_news_detail_ib1.setOnClickListener(this);
 		acti_news_detail_ib2.setOnClickListener(this);
 		acti_news_detail_ib3.setOnClickListener(this);
 	}
-	
-	
-	
-	
+
 	private int mCurrentChooseItem;// 记录当前选中的item, 点击确定前
-	private int mCurrentItem = 2;// 记录当前选中的item, 点击确定后
+	private int mCurrentItem;// 记录当前选中的item, 点击确定后
 
 	/**
 	 * 显示选择对话框
@@ -133,6 +133,9 @@ public class NewsDetailActivity extends Activity implements OnClickListener{
 		String[] items = new String[] { "超大号字体", "大号字体", "正常字体", "小号字体",
 				"超小号字体" };
 		builder.setTitle("字体设置");
+		mCurrentItem = PrefUtils.getInt(NewsDetailActivity.this,
+				"textsizecheck", 1);
+		sitTextSize(mCurrentItem);
 		builder.setSingleChoiceItems(items, mCurrentItem,
 				new DialogInterface.OnClickListener() {
 
@@ -147,30 +150,12 @@ public class NewsDetailActivity extends Activity implements OnClickListener{
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				WebSettings settings = acti_news_detail_wv.getSettings();
-				switch (mCurrentChooseItem) {
-				case 0:
-					settings.setTextSize(TextSize.LARGEST);
-					break;
-				case 1:
-					settings.setTextSize(TextSize.LARGER);
-					break;
-				case 2:
-					settings.setTextSize(TextSize.NORMAL);
-					break;
-				case 3:
-					settings.setTextSize(TextSize.SMALLER);
-					break;
-				case 4:
-					settings.setTextSize(TextSize.SMALLEST);
-					break;
 
-				default:
-					break;
-				}
+				sitTextSize(mCurrentChooseItem);
 
-				mCurrentItem = mCurrentChooseItem;
+				// mCurrentItem = mCurrentChooseItem;
 			}
+
 		});
 
 		builder.setNegativeButton("取消", null);
@@ -183,7 +168,7 @@ public class NewsDetailActivity extends Activity implements OnClickListener{
 	 */
 	@Override
 	public void onClick(View v) {
-		switch(v.getId()){
+		switch (v.getId()) {
 		case R.id.acti_news_detail_ib1:
 			finish();
 			break;
@@ -192,9 +177,42 @@ public class NewsDetailActivity extends Activity implements OnClickListener{
 			break;
 		case R.id.acti_news_detail_ib3:
 			break;
-		
-		
+
 		}
-		
+
+	}
+
+	/**
+	 * 设置字体的大小
+	 * 
+	 * @param mCurrentChooseItem
+	 */
+	private void sitTextSize(int mCurrentChooseItem) {
+		WebSettings settings = acti_news_detail_wv.getSettings();
+		switch (mCurrentChooseItem) {
+		case 0:
+			settings.setTextSize(TextSize.LARGEST);
+			PrefUtils.setInt(NewsDetailActivity.this, "textsizecheck", 0);
+			break;
+		case 1:
+			settings.setTextSize(TextSize.LARGER);
+			PrefUtils.setInt(NewsDetailActivity.this, "textsizecheck", 1);
+			break;
+		case 2:
+			settings.setTextSize(TextSize.NORMAL);
+			PrefUtils.setInt(NewsDetailActivity.this, "textsizecheck", 2);
+			break;
+		case 3:
+			settings.setTextSize(TextSize.SMALLER);
+			PrefUtils.setInt(NewsDetailActivity.this, "textsizecheck", 3);
+			break;
+		case 4:
+			settings.setTextSize(TextSize.SMALLEST);
+			PrefUtils.setInt(NewsDetailActivity.this, "textsizecheck", 4);
+			break;
+
+		default:
+			break;
+		}
 	}
 }

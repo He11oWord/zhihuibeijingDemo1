@@ -62,4 +62,23 @@ public class PrefUtils {
 				Context.MODE_PRIVATE);
 		return sp.getString(key, "");
 	}
+	
+	/**
+	 * 设置int类型的值
+	 * @param ctx
+	 * @param key
+	 * @param s
+	 */
+	public static void setInt(Context ctx, String key, int i) {
+		SharedPreferences sp = ctx.getSharedPreferences(PREF_NAME,
+				Context.MODE_PRIVATE);
+		sp.edit().putInt(key, i).commit();
+	}
+
+	public static int getInt(Context ctx, String key,int defaultValue) {
+		SharedPreferences sp = ctx.getSharedPreferences(PREF_NAME,
+				Context.MODE_PRIVATE);
+		return sp.getInt(key, defaultValue);
+	}
+	
 }

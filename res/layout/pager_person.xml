@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_bg_login_no" >
+
+        <TextView
+            android:id="@+id/person_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="20dip"
+            android:paddingTop="20dip"
+            android:text="还未登陆，请登录"
+            android:textSize="22dip" 
+            android:textColor="#000"/>
+
+        <Button
+            android:id="@+id/person_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/person_tv"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/setting_login_bgn" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/person_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
