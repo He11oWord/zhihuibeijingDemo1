@@ -46,9 +46,6 @@ public class ActivityFragment extends BaseFragment {
 	public View initViews() {
 		// 实例化基类数组
 		bpList = new ArrayList<BasePager>();
-		// 实例化适配器
-		// mpa = ;
-
 		View view = View.inflate(mActivity, R.layout.fragment_activity, null);
 		// fra_act_rg = (RadioGroup) view.findViewById(R.id.fra_act_rg);
 		// 用Xutil包能直接把所有的东西都找出来
@@ -159,7 +156,6 @@ public class ActivityFragment extends BaseFragment {
 
 	/**
 	 * 获得NewsPager
-	 * 
 	 * @return
 	 */
 	public NewsPager getNewsPager() {

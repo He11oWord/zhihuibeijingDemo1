@@ -21,32 +21,32 @@
         android:weightSum="4" >
 
         <RadioButton
-            android:id="@+id/fra_act_btn_home"
+            android:id="@+id/rb1"
             style="@style/BottomTab"
             android:drawableEnd="@drawable/checkbox"
             android:gravity="left"
             android:text="特大" />
 
         <RadioButton
-            android:id="@+id/fra_act_btn_news"
+            android:id="@+id/rb2"
             style="@style/BottomTab"
             android:drawableEnd="@drawable/checkbox"
             android:text="大    " />
 
         <RadioButton
-            android:id="@+id/fra_act_btn_fuwu"
+            android:id="@+id/rb3"
             style="@style/BottomTab"
             android:drawableEnd="@drawable/checkbox"
             android:text="正常" />
 
         <RadioButton
-            android:id="@+id/fra_act_btn_geren"
+            android:id="@+id/rb4"
             style="@style/BottomTab"
             android:drawableEnd="@drawable/checkbox"
             android:text="小    " />
         
         <RadioButton
-            android:id="@+id/fra_act_btn_texiao"
+            android:id="@+id/rb5"
             style="@style/BottomTab"
             android:drawableEnd="@drawable/checkbox"
             android:text="特小" />

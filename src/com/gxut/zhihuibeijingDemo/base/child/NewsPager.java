@@ -136,13 +136,13 @@ public class NewsPager extends BasePager {
 	 * @param position
 	 */
 	public void setDetailPager(int position) {
+		bdList.get(position).initData();
 		fl.removeAllViews();
 		fl.addView(bdList.get(position).mView);
 
 		//…Ë÷√±ÍÃ‚
 		NewsMenuData newsMenuData = newsData.data.get(position);
 		tv_title.setText(newsMenuData.title);
-		bdList.get(position).initData();
 		if (bdList.get(position) instanceof ZutuDetailPager) {
 			ib_serach.setVisibility(View.VISIBLE);
 		} else {

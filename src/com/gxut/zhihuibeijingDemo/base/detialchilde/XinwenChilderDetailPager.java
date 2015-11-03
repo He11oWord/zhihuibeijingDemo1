@@ -1,5 +1,6 @@
 package com.gxut.zhihuibeijingDemo.base.detialchilde;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -53,13 +54,14 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 	private ViewPager detailVp;// 设置头条新闻所有图片
 	private BitmapUtils bitmapUtils;// 设置头条新闻的图片
 	private CirclePageIndicator mIndicator;// 设置头条新闻的小圆点
-	private RefreshListView top_list;// 新闻列表
+	public RefreshListView top_list;// 新闻列表
 	private MyTopListAdapter myTopListAdapter;// 新闻列表的适配器
 	private List<NewsDetailChilrenNewsData> newsList;
 	private String mLoadMoreUrl;// more的地址
 	private String mUrl;
 	private Handler mHandler;
-
+	
+	
 	public XinwenChilderDetailPager(Activity activity, NewsTabData newsTabData1) {
 		super(activity);
 		mView = initView();
@@ -124,7 +126,17 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 			}
 		});
 
-		detailVp.setOnTouchListener(new MyTouchListener());
+		//detailVp.setOnTouchListener(new MyTouchListener());
+//		detailVp.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				System.out.println("我被点击了");
+//				Intent intent = new Intent(mActivity, NewsDetailActivity.class);
+//				intent.putExtra("url", newsList.get(0).url);
+//				mActivity.startActivity(intent);
+//			}
+//		});
 		return view;
 	}
 
@@ -148,7 +160,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 				break;
 			}
 
-			return false;
+			return true;
 		}
 
 	}
@@ -165,6 +177,7 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 
 	@Override
 	public void initData() {
+		
 		String cache = CacheUtil.getCache(mActivity, GlobalUrl.SERVER_URL
 				+ newsTabData.url);
 
@@ -244,6 +257,12 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 		Gson gson = new Gson();
 		NewsDetailData fromJson = gson.fromJson(result, NewsDetailData.class);
 		detailChilrenData = fromJson;
+//		for(int i = 0;i<detailChilrenData.data.topnews.size();i++){
+//			list.add(detailChilrenData.data.topnews.get(i).topimage);
+//		}
+//	;
+		
+		
 		if (TextUtils.isEmpty(fromJson.data.more)) {
 			mLoadMoreUrl = null;
 		} else {
@@ -282,10 +301,10 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 							currentItem = 0;
 						}
 						detailVp.setCurrentItem(currentItem);// 切换到下一个页面
-						mHandler.sendEmptyMessageDelayed(0, 2000);// 以后循环发送
+						mHandler.sendEmptyMessageDelayed(0, 3000);// 以后循环发送
 					};
 				};
-				mHandler.sendEmptyMessageDelayed(0, 2000);// 第一次2秒之后发信息出去
+				mHandler.sendEmptyMessageDelayed(0, 3000);// 第一次3秒之后发信息出去
 			}
 
 		} else {// 如果是加载更多的话，就添加列表
@@ -316,17 +335,31 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
+			
+			
 			return arg0 == arg1;
 		}
 
 		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
+		public Object instantiateItem(ViewGroup container, final int position) {
 			ImageView iv = new ImageView(mActivity);
 			iv.setImageResource(R.drawable.e);
 			iv.setScaleType(ScaleType.FIT_XY);
 			container.addView(iv);
 			bitmapUtils.display(iv,
 					detailChilrenData.data.topnews.get(position).topimage);
+		
+			iv.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					System.out.println("我被点击了");
+					Intent intent = new Intent(mActivity, NewsDetailActivity.class);
+					intent.putExtra("url", newsList.get(0).url);
+					mActivity.startActivity(intent);
+				}
+			});
+			
 			return iv;
 		}
 

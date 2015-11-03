@@ -1,5 +1,7 @@
 package com.gxut.zhihuibeijingDemo.utils;
 
+import java.io.ObjectOutputStream.PutField;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -60,7 +62,7 @@ public class PrefUtils {
 	public static String getString(Context ctx, String key,String defaultValue) {
 		SharedPreferences sp = ctx.getSharedPreferences(PREF_NAME,
 				Context.MODE_PRIVATE);
-		return sp.getString(key, "");
+		return sp.getString(key, defaultValue);
 	}
 	
 	/**

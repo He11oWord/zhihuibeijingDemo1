@@ -4,17 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ListView
+    <com.gxut.zhihuibeijingDemo.ui.RefreshListView
         android:id="@+id/base_setting_todayhot_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </ListView>
+    </com.gxut.zhihuibeijingDemo.ui.RefreshListView>
 
-    <TextView
-        android:text="hhahhahhah"
-        android:id="@+id/base_setting_todayhot_tv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </TextView>
+
 
 </LinearLayout>

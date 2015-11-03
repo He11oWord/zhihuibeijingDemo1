@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,11 +27,13 @@ import com.gxut.zhihuibeijingDemo.MainActivity;
 import com.gxut.zhihuibeijingDemo.NewsDetailActivity;
 import com.gxut.zhihuibeijingDemo.R;
 import com.gxut.zhihuibeijingDemo.base.BasePager;
+import com.gxut.zhihuibeijingDemo.base.detialchilde.ZutuDetailPager;
 import com.gxut.zhihuibeijingDemo.domin.HomeNewsData;
 import com.gxut.zhihuibeijingDemo.domin.HomeNewsData.HomeTopData;
 import com.gxut.zhihuibeijingDemo.fragment.ActivityFragment;
 import com.gxut.zhihuibeijingDemo.global.GlobalUrl;
 import com.gxut.zhihuibeijingDemo.settingactiivty.TodayHotActivity;
+import com.gxut.zhihuibeijingDemo.settingactiivty.TranslationActivity;
 import com.gxut.zhihuibeijingDemo.utils.CacheUtil;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
@@ -47,7 +50,7 @@ import com.viewpagerindicator.CirclePageIndicator;
  * @author lizhao
  * @date 2015-10-27 下午9:58:26
  */
-public class HomePager extends BasePager implements OnItemClickListener  {
+public class HomePager extends BasePager implements OnItemClickListener {
 
 	private CirclePageIndicator indicator;
 	private TextView home_tv;
@@ -59,15 +62,14 @@ public class HomePager extends BasePager implements OnItemClickListener  {
 	private Handler mHandler;
 	private MyListAdapter myGridAdapter;
 	private ActivityFragment af;
-	private int[] ids = {
-		R.drawable.today_hot,R.drawable.fm_shouye,R.drawable.fm_shouye,
-		R.drawable.tubiao_pindao,R.drawable.index_chuxing,R.drawable.index_itlx,
-		R.drawable.zhuanti_top,R.drawable.jiaoyu,R.drawable.yiliao
-	};
-	
-	public HomePager(Activity activity,ActivityFragment af) {
+	private int[] ids = { R.drawable.today_hot, R.drawable.fm_shouye,
+			R.drawable.fm_shouye, R.drawable.tubiao_pindao,
+			R.drawable.index_chuxing, R.drawable.index_itlx,
+			R.drawable.zhuanti_top, R.drawable.jiaoyu, R.drawable.yiliao };
+
+	public HomePager(Activity activity, ActivityFragment af) {
 		super(activity);
-		this.af =af;
+		this.af = af;
 		initData();
 	}
 
@@ -101,7 +103,6 @@ public class HomePager extends BasePager implements OnItemClickListener  {
 		home_vp.setOnTouchListener(new MyTouchListener());
 		myGridAdapter = new MyListAdapter();
 
-		
 	}
 
 	/**
@@ -182,6 +183,17 @@ public class HomePager extends BasePager implements OnItemClickListener  {
 			bitmapUtils.display(iv, topNewsList.get(position).topimage);
 			home_tv.setText(topNewsList.get(position).title);
 
+			iv.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					System.out.println("我被点击了");
+					Intent intent = new Intent(mActivity,
+							NewsDetailActivity.class);
+					intent.putExtra("url", topNewsList.get(0).url);
+					mActivity.startActivity(intent);
+				}
+			});
 			// 自动轮播显示
 			if (mHandler == null) {
 				mHandler = new Handler() {
@@ -196,10 +208,10 @@ public class HomePager extends BasePager implements OnItemClickListener  {
 							currentItem = 0;
 						}
 						home_vp.setCurrentItem(currentItem);// 切换到下一个页面
-						mHandler.sendEmptyMessageDelayed(0, 2000);// 以后循环发送
+						mHandler.sendEmptyMessageDelayed(0, 3000);// 以后循环发送
 					};
 				};
-				mHandler.sendEmptyMessageDelayed(0, 2000);// 第一次2秒之后发信息出去
+				mHandler.sendEmptyMessageDelayed(0, 3000);// 第一次2秒之后发信息出去
 			}
 
 			return iv;
@@ -236,20 +248,30 @@ public class HomePager extends BasePager implements OnItemClickListener  {
 			return false;
 		}
 	}
-	
-	private class MyListAdapter extends BaseAdapter{
+
+	/**
+	 * gridView的适配器
+	 * 
+	 * @author lizhao
+	 * 
+	 */
+	private class MyListAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
 			return 9;
 		}
+
 		@Override
 		public View getView(int arg0, View arg1, ViewGroup arg2) {
-			View viewItem = View.inflate(mActivity, R.layout.home_gv_item, null);
-			ImageView gv_iv = (ImageView) viewItem.findViewById(R.id.home_gv_item_iv);
+			View viewItem = View
+					.inflate(mActivity, R.layout.home_gv_item, null);
+			ImageView gv_iv = (ImageView) viewItem
+					.findViewById(R.id.home_gv_item_iv);
 			gv_iv.setBackgroundResource(ids[arg0]);
 			return viewItem;
 		}
+
 		@Override
 		public Object getItem(int arg0) {
 			return null;
@@ -263,35 +285,47 @@ public class HomePager extends BasePager implements OnItemClickListener  {
 
 	/**
 	 * 实现条目点击
+	 * 
 	 * @param arg0
 	 * @param arg1
 	 * @param position
 	 * @param arg3
 	 */
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+			long arg3) {
 		Intent intent;
-		switch(position){
+		switch (position) {
 		case 0:
-			intent = new Intent(mActivity,TodayHotActivity.class);
-			mActivity.startActivity(intent);
-			break;
-		case 3:
-//			MainActivity mainUI = (MainActivity) mActivity;//获得MainActivity
-//			ActivityFragment activityFragment = mainUI.getActivityFragment();//获得ActivityF
-			NewsPager newsPager = af.getNewsPager();//获得NewsPager
-			af.fra_act_rg.check(1);
-			af.fra_act_vp.setCurrentItem(1);
-			newsPager.setDetailPager(2);//调用NewsPager的设置页面方法
-			newsPager.setDetailPager(2);//调用NewsPager的设置页面方法
-			break;
-		case 7:
-			System.out.println("求职招聘被点击了");
-			intent = new Intent(mActivity,NewsDetailActivity.class);
-			intent.putExtra("url", "http://www.51job.com");
+			intent = new Intent(mActivity, TodayHotActivity.class);
 			mActivity.startActivity(intent);
 			break;
 		
+		case 3:
+			// MainActivity mainUI = (MainActivity) mActivity;//获得MainActivity
+			// ActivityFragment activityFragment =
+			// mainUI.getActivityFragment();//获得ActivityF
+			NewsPager newsPager = af.getNewsPager();// 获得NewsPager
+			af.fra_act_rg.check(1);
+			af.fra_act_vp.setCurrentItem(1);
+			newsPager.setDetailPager(2);// 调用NewsPager的设置页面方法
+			newsPager.setDetailPager(2);// 调用NewsPager的设置页面方法
+			newsPager.fl.removeAllViews();
+			newsPager.fl
+					.addView((new ZutuDetailPager(mActivity, ib_serach)).mView);
+			newsPager.fl.removeAllViews();
+			break;
+		case 7:
+			System.out.println("求职招聘被点击了");
+			intent = new Intent(mActivity, NewsDetailActivity.class);
+			intent.putExtra("url", "http://www.51job.com");
+			mActivity.startActivity(intent);
+			break;
+		case 8:
+			intent = new Intent(mActivity, TranslationActivity.class);
+			mActivity.startActivity(intent);
+			break;
+
 		default:
 			break;
 		}
