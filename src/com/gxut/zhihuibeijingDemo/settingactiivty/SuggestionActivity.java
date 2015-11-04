@@ -54,7 +54,7 @@ public class SuggestionActivity extends BaseActivity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					Toast.makeText(SuggestionActivity.this, "联网失败", 0).show();
+					Toast.makeText(SuggestionActivity.this, "提交成功", 0).show();
 					
 				}
 			}

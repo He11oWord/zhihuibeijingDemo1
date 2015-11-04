@@ -7,8 +7,8 @@ package com.gxut.zhihuibeijingDemo.global;
  * @date 2015-10-28 ионГ10:21:38
  */
 public class GlobalUrl {
-	public static final String SERVER_URL = "http://10.0.2.2:8080/zhbj";
+	public static final String SERVER_URL = "http://zhihuibj.sinaapp.com/zhbj";
 	public static final String CATEGORIES_URL = SERVER_URL + "/categories.json";
 	public static final String ZUTU_URL = SERVER_URL + "/photos/photos_1.json";
-	public static final String HOME_TOP_URL = SERVER_URL + "/10101/list_1.json";
+	public static final String HOME_TOP_URL = SERVER_URL + "/10007/list_1.json";
 }

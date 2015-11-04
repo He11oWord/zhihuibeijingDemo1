@@ -61,9 +61,9 @@ public class ActivityFragment extends BaseFragment {
 	public void initData() {
 		fra_act_rg.check(R.id.fra_act_btn_home);
 		// 添加几个自定义的页面
-		bpList.add(new HomePager(mActivity,this));
+		bpList.add(new HomePager(mActivity, this));
 		bpList.add(new NewsPager(mActivity));
-		bpList.add(new ServicePager(mActivity));
+//		bpList.add(new ServicePager(mActivity));
 		bpList.add(new PersonPager(mActivity));
 
 		// 预设置第一个页面的侧边栏可以使用
@@ -82,14 +82,11 @@ public class ActivityFragment extends BaseFragment {
 				case R.id.fra_act_btn_news:// 新闻
 					fra_act_vp.setCurrentItem(1);
 					break;
-//				case 1:// 新闻
-//					fra_act_vp.setCurrentItem(1);
+//				case R.id.fra_act_btn_fuwu:// 服务
+//					fra_act_vp.setCurrentItem(2);
 //					break;
-				case R.id.fra_act_btn_fuwu:// 服务
-					fra_act_vp.setCurrentItem(2);
-					break;
 				case R.id.fra_act_btn_geren:// 个人
-					fra_act_vp.setCurrentItem(3);
+					fra_act_vp.setCurrentItem(2);
 					break;
 				}
 
@@ -143,6 +140,9 @@ public class ActivityFragment extends BaseFragment {
 
 			BasePager pager = bpList.get(position);
 			container.addView(pager.mView);
+			if (position == 0) {
+				pager.initData();
+			}
 			return bpList.get(position).mView;
 		}
 
@@ -156,6 +156,7 @@ public class ActivityFragment extends BaseFragment {
 
 	/**
 	 * 获得NewsPager
+	 * 
 	 * @return
 	 */
 	public NewsPager getNewsPager() {

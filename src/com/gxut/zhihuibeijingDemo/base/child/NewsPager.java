@@ -40,9 +40,11 @@ public class NewsPager extends BasePager {
 
 	private ArrayList<BaseDetailPager> bdList;
 	private NewsData newsData;
+	private MainActivity mainUI;
 
 	public NewsPager(Activity activity) {
 		super(activity);
+		mainUI = (MainActivity) mActivity;
 	}
 
 	@Override
@@ -54,7 +56,7 @@ public class NewsPager extends BasePager {
 			parseData(cache);
 		}
 		getDataFromServer();//不管有没有缓存，都获取最新数据
-		
+		setDetailPager(mainUI.getFragmentLeftMenu().getMPostion());
 
 		
 		
@@ -114,7 +116,7 @@ public class NewsPager extends BasePager {
 		newsData = gson.fromJson(result, NewsData.class);
 
 		// 传递json资料
-		MainActivity mainUI = (MainActivity) mActivity;
+		
 		mainUI.getFragmentLeftMenu().setNewsData(newsData);
 
 		// 数组里面添加详情页面
@@ -127,7 +129,7 @@ public class NewsPager extends BasePager {
 		// 预设值为首页
 	
 		
-		setDetailPager(mainUI.getFragmentLeftMenu().getMPostion());
+		
 	}
 
 	/**

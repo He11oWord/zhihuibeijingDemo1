@@ -21,6 +21,15 @@
             android:padding="5dip"
             android:src="@drawable/back" />
 
+        <TextView
+            android:id="@+id/base_activity_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="今日热点"
+            android:textColor="#fff"
+            android:textSize="24dip" />
+
         <ImageButton
             android:id="@+id/acti_news_detail_ib2"
             android:layout_width="wrap_content"
@@ -43,9 +52,9 @@
     </RelativeLayout>
 
     <WebView
-        android:layout_weight="1"
         android:id="@+id/acti_news_detail_wv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
 </LinearLayout>

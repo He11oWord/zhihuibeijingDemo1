@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:src="@drawable/news_item_bg"
-        android:weightSum="4" >
+        android:weightSum="3" >
 
         <RadioButton
             android:id="@+id/fra_act_btn_home"
@@ -30,11 +30,11 @@
             android:drawableTop="@drawable/selector_btab_news"
             android:text="新闻" />
 
-        <RadioButton
-            android:id="@+id/fra_act_btn_fuwu"
-            style="@style/BottomTab"
-            android:drawableTop="@drawable/selector_btab_fuwu"
-            android:text="服务" />
+<!--         <RadioButton -->
+<!--             android:id="@+id/fra_act_btn_fuwu" -->
+<!--             style="@style/BottomTab" -->
+<!--             android:drawableTop="@drawable/selector_btab_fuwu" -->
+<!--             android:text="服务" /> -->
 
         <RadioButton
             android:id="@+id/fra_act_btn_geren"

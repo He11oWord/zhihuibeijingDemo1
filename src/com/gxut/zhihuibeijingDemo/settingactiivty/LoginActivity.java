@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.gxut.zhihuibeijingDemo.R;
 import com.gxut.zhihuibeijingDemo.base.BaseActivity;
+import com.gxut.zhihuibeijingDemo.base.child.PersonPager;
+import com.gxut.zhihuibeijingDemo.utils.PrefUtils;
 
 /**
  * µÇÂ½½çÃæ
@@ -21,10 +23,27 @@ public class LoginActivity extends BaseActivity {
 	private EditText et2;
 	private Button button1;
 	private Button button2;
+	private PersonPager pp;
+
+	// public LoginActivity(PersonPager pp){
+	// this.pp = pp;
+	// }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	protected void onRestart() {
+		initData();
+		super.onRestart();
+	}
+
+	@Override
+	protected void onResume() {
+		initData();
+		super.onResume();
 	}
 
 	@Override
@@ -51,12 +70,20 @@ public class LoginActivity extends BaseActivity {
 				} else {
 					if (password.equals("123")) {
 						Toast.makeText(LoginActivity.this, "µÇÂ½³É¹¦", 0).show();
+						PrefUtils.setBoolean(getApplicationContext(),
+								"isLogin", true);
+						finish();
+						// pp.initData();
+
 					} else {
 						Toast.makeText(LoginActivity.this, "ÃÜÂë´íÎó", 0).show();
+						PrefUtils.setBoolean(getApplicationContext(),
+								"isLogin", false);
 					}
 				}
 			}
 		});
+
 		button2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

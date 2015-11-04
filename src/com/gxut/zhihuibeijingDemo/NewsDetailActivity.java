@@ -3,8 +3,10 @@ package com.gxut.zhihuibeijingDemo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -14,6 +16,7 @@ import android.webkit.WebSettings.TextSize;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.gxut.zhihuibeijingDemo.utils.PrefUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -41,13 +44,17 @@ public class NewsDetailActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_news_detail);
 
 		View view = View.inflate(this, R.layout.activity_news_detail, null);
-		// ViewUtils.inject(this, view);
+		tv = (TextView) findViewById(R.id.base_activity_tv_title);
 		acti_news_detail_ib1 = (ImageButton) findViewById(R.id.acti_news_detail_ib1);
 		acti_news_detail_ib2 = (ImageButton) findViewById(R.id.acti_news_detail_ib2);
 		acti_news_detail_ib3 = (ImageButton) findViewById(R.id.acti_news_detail_ib3);
 		acti_news_detail_wv = (WebView) findViewById(R.id.acti_news_detail_wv);
 		String url = getIntent().getStringExtra("url");
+		String title = getIntent().getStringExtra("title");
 
+		if (!TextUtils.isEmpty(title)) {
+			tv.setText(title);
+		}
 		WebSettings settings = acti_news_detail_wv.getSettings();
 		settings.setJavaScriptEnabled(true);// 表示支持js
 		settings.setBuiltInZoomControls(true);// 显示放大缩小按钮
@@ -123,6 +130,7 @@ public class NewsDetailActivity extends Activity implements OnClickListener {
 
 	private int mCurrentChooseItem;// 记录当前选中的item, 点击确定前
 	private int mCurrentItem;// 记录当前选中的item, 点击确定后
+	private TextView tv;
 
 	/**
 	 * 显示选择对话框
@@ -176,8 +184,8 @@ public class NewsDetailActivity extends Activity implements OnClickListener {
 			showChooseDialog();
 			break;
 		case R.id.acti_news_detail_ib3:
+			shareApplication();
 			break;
-
 		}
 
 	}
@@ -214,5 +222,17 @@ public class NewsDetailActivity extends Activity implements OnClickListener {
 		default:
 			break;
 		}
+	}
+	
+	/**
+	 * 分享软件
+	 */
+	private void shareApplication() {
+		Intent intent = new Intent();
+		intent.setAction("android.intent.action.SEND");
+		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_TEXT, "推荐给你一款软件，智慧北京。" );
+		startActivity(intent);
 	}
 }

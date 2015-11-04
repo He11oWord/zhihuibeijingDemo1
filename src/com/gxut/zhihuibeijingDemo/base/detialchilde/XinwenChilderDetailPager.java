@@ -1,8 +1,6 @@
 package com.gxut.zhihuibeijingDemo.base.detialchilde;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.gxut.zhihuibeijingDemo.NewsDetailActivity;
 import com.gxut.zhihuibeijingDemo.R;
@@ -183,8 +180,6 @@ public class XinwenChilderDetailPager extends BaseDetailPager implements
 
 		if (!TextUtils.isEmpty(cache)) {// 如果不为空，先解析缓存
 			parseData(cache, true);
-			System.out.println("获得缓存成功");
-			Toast.makeText(mActivity, "获得缓存成功", 0).show();
 		}
 
 		// 从服务器获得数据

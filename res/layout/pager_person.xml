@@ -5,8 +5,8 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="120dip"
         android:background="@drawable/setting_bg_login_no" >
 
         <TextView
@@ -18,8 +18,8 @@
             android:paddingBottom="20dip"
             android:paddingTop="20dip"
             android:text="还未登陆，请登录"
-            android:textSize="22dip" 
-            android:textColor="#000"/>
+            android:textColor="#000"
+            android:textSize="22dip" />
 
         <Button
             android:id="@+id/person_button"
@@ -28,6 +28,13 @@
             android:layout_below="@+id/person_tv"
             android:layout_centerHorizontal="true"
             android:background="@drawable/setting_login_bgn" />
+
+        <ImageButton
+            android:id="@+id/person_iv"
+            android:layout_width="match_parent"
+            android:layout_height="120dip"
+            android:background="@drawable/account_01"
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <ListView

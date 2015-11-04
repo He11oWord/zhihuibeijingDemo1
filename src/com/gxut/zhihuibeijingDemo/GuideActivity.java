@@ -101,10 +101,11 @@ public class GuideActivity extends Activity {
 			point.setBackgroundResource(R.drawable.guide_point);
 
 			// linearLayout的布局方式
+			int x = 30;
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-					10, 10);
+					x, x);
 			if (i > 0) {
-				params.leftMargin = 10;
+				params.leftMargin = x;
 			}
 			point.setLayoutParams(params);
 			guideLl.addView(point);

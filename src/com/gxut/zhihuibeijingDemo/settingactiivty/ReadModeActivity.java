@@ -36,7 +36,7 @@ public class ReadModeActivity extends BaseActivity {
 		rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				PrefUtils.setInt(getApplicationContext(), "textsizecheck", checkedId);
+				PrefUtils.setInt(getApplicationContext(), "readmode", checkedId);
 			}
 		});
 		return view;
@@ -50,7 +50,7 @@ public class ReadModeActivity extends BaseActivity {
 	}
 
 	private void setCheck(){
-		int checkId = PrefUtils.getInt(this, "textsizecheck", 0);
+		int checkId = PrefUtils.getInt(this, "readmode", 0);
 		rg.check(checkId);
 	}
 	

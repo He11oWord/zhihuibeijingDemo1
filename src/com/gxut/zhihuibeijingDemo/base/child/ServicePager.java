@@ -33,7 +33,6 @@ public class ServicePager extends BasePager {
 		text.setTextSize(25);
 		text.setGravity(Gravity.CENTER);
 		fl.addView(text);
-
 	}
 
 }

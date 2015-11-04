@@ -62,10 +62,10 @@ public class HomePager extends BasePager implements OnItemClickListener {
 	private Handler mHandler;
 	private MyListAdapter myGridAdapter;
 	private ActivityFragment af;
-	private int[] ids = { R.drawable.today_hot, R.drawable.fm_shouye,
-			R.drawable.fm_shouye, R.drawable.tubiao_pindao,
+	private int[] ids = { R.drawable.today_hot, R.drawable.zhuanti_top,
+			 R.drawable.tubiao_pindao,R.drawable.fm_shouye,
 			R.drawable.index_chuxing, R.drawable.index_itlx,
-			R.drawable.zhuanti_top, R.drawable.jiaoyu, R.drawable.yiliao };
+			R.drawable.shenghuo, R.drawable.jiaoyu, R.drawable.yiliao };
 
 	public HomePager(Activity activity, ActivityFragment af) {
 		super(activity);
@@ -95,7 +95,6 @@ public class HomePager extends BasePager implements OnItemClickListener {
 		if (!TextUtils.isEmpty(cache)) {// 如果不为空，先解析缓存
 			parseData(cache);
 			System.out.println("获得缓存成功");
-			Toast.makeText(mActivity, "获得缓存成功", 0).show();
 		}
 		// 从服务器获得数据
 		getDataFromServer();
@@ -300,7 +299,25 @@ public class HomePager extends BasePager implements OnItemClickListener {
 			intent = new Intent(mActivity, TodayHotActivity.class);
 			mActivity.startActivity(intent);
 			break;
-		
+		case 1:
+			// MainActivity mainUI = (MainActivity) mActivity;//获得MainActivity
+			// ActivityFragment activityFragment =
+			// mainUI.getActivityFragment();//获得ActivityF
+			NewsPager newsPager4 = af.getNewsPager();// 获得NewsPager
+			af.fra_act_rg.check(1);
+			af.fra_act_vp.setCurrentItem(1);
+			newsPager4.setDetailPager(1);// 调用NewsPager的设置页面方法
+			break;
+		case 2:
+			// MainActivity mainUI = (MainActivity) mActivity;//获得MainActivity
+			// ActivityFragment activityFragment =
+			// mainUI.getActivityFragment();//获得ActivityF
+			NewsPager newsPager1 = af.getNewsPager();// 获得NewsPager
+			af.fra_act_rg.check(1);
+			af.fra_act_vp.setCurrentItem(1);
+			newsPager1.setDetailPager(2);// 调用NewsPager的设置页面方法
+			break;
+
 		case 3:
 			// MainActivity mainUI = (MainActivity) mActivity;//获得MainActivity
 			// ActivityFragment activityFragment =
@@ -308,17 +325,33 @@ public class HomePager extends BasePager implements OnItemClickListener {
 			NewsPager newsPager = af.getNewsPager();// 获得NewsPager
 			af.fra_act_rg.check(1);
 			af.fra_act_vp.setCurrentItem(1);
-			newsPager.setDetailPager(2);// 调用NewsPager的设置页面方法
-			newsPager.setDetailPager(2);// 调用NewsPager的设置页面方法
-			newsPager.fl.removeAllViews();
-			newsPager.fl
-					.addView((new ZutuDetailPager(mActivity, ib_serach)).mView);
-			newsPager.fl.removeAllViews();
+			newsPager.setDetailPager(3);// 调用NewsPager的设置页面方法
 			break;
+		case 4:
+			intent = new Intent(mActivity, NewsDetailActivity.class);
+			intent.putExtra("url", "http://www.qunar.com");
+			intent.putExtra("title", "出行预定");
+			mActivity.startActivity(intent);
+			break;
+
+		case 5:
+			intent = new Intent(mActivity, NewsDetailActivity.class);
+			intent.putExtra("url", "http://map.baidu.com");
+			intent.putExtra("title", "交通路线");
+			mActivity.startActivity(intent);
+			break;
+		case 6:
+			intent = new Intent(mActivity, NewsDetailActivity.class);
+			intent.putExtra("url", "www.weather.com.cn");
+			intent.putExtra("title", "天气查询");
+			mActivity.startActivity(intent);
+			break;
+
 		case 7:
 			System.out.println("求职招聘被点击了");
 			intent = new Intent(mActivity, NewsDetailActivity.class);
 			intent.putExtra("url", "http://www.51job.com");
+			intent.putExtra("title", "求职招聘");
 			mActivity.startActivity(intent);
 			break;
 		case 8:

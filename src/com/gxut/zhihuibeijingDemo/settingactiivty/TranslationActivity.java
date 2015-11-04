@@ -73,44 +73,10 @@ public class TranslationActivity extends BaseActivity {
 
 	@Override
 	public void initData() {
-
-		copyDB();
-
 	
 
 	}
 
-	/**
-	 * 拷贝翻译数据库到个人目录之下
-	 */
-	private void copyDB() {
-
-		try {
-			File file = new File(getFilesDir(), "dictionary.db");
-
-			// 判断文件是否存在
-			if (file.exists() && file.length() > 0) {
-				Toast.makeText(this, "文件已存在", 0).show();
-			} else {
-				Toast.makeText(this, "文件不存在", 0).show();
-				InputStream is = getAssets().open("dictionary.db");
-				FileOutputStream fos = new FileOutputStream(file);
-				byte[] buffer = new byte[1024];
-				int len = 0;
-				while ((len = is.read(buffer)) != -1) {
-					fos.write(buffer, 0, len);
-
-				}
-
-				is.close();
-				fos.close();
-			}
-		} catch (IOException e) {
-			Toast.makeText(this, "方法错误", 0).show();
-			e.printStackTrace();
-
-		}
-
-	}
+	
 
 }

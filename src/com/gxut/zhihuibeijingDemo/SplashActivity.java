@@ -1,5 +1,10 @@
 package com.gxut.zhihuibeijingDemo;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.gxut.zhihuibeijingDemo.utils.PrefUtils;
 
 import android.app.Activity;
@@ -14,6 +19,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 /**
  * SplashActivity页面
@@ -32,6 +38,7 @@ public class SplashActivity extends Activity {
 	
 		RelativeLayout relative = (RelativeLayout) findViewById(R.id.splash_relative);
 		startAnimation(relative);
+		copyDB();
 
 	}
 
@@ -96,15 +103,46 @@ public class SplashActivity extends Activity {
 	 */
 	private void nextActivity() {
 
-		if (PrefUtils.getBoolean(getApplicationContext(), "is_showed_guide", false)) {
-			Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-			startActivity(intent);
-		}else{
+//		if (PrefUtils.getBoolean(getApplicationContext(), "is_showed_guide", true)) {
+//			Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+//			startActivity(intent);
+//		}else{
 			Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
 			startActivity(intent);
 
-		}
+//		}
 		finish();
+	}
+	
+	/**
+	 * 拷贝翻译数据库到个人目录之下
+	 */
+	private void copyDB() {
+
+		try {
+			File file = new File(getFilesDir(), "dictionary.db");
+
+			// 判断文件是否存在
+			if (file.exists() && file.length() > 0) {
+			} else {
+				InputStream is = getAssets().open("dictionary.db");
+				FileOutputStream fos = new FileOutputStream(file);
+				byte[] buffer = new byte[1024];
+				int len = 0;
+				while ((len = is.read(buffer)) != -1) {
+					fos.write(buffer, 0, len);
+
+				}
+
+				is.close();
+				fos.close();
+			}
+		} catch (IOException e) {
+			Toast.makeText(this, "方法错误", 0).show();
+			e.printStackTrace();
+
+		}
+
 	}
 
 }
